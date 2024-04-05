@@ -15,6 +15,7 @@ def generate_tooltips(dataframe):
     ]
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.SPACELAB])
+server = app.server
 
 db_path = 'CD.db'
 conn = sqlite3.connect(db_path)
