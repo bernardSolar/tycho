@@ -79,8 +79,8 @@ def update_video_src(active_cell, derived_virtual_data):
     active_row = derived_virtual_data[active_row_index]
 
     video_id = active_row.get('video_id')
-    start_timecode = active_row.get('start_timecode')
-    end_timecode = active_row.get('end_timecode')
+    start_timecode = active_row.get('start_timecode').strip('[]')
+    end_timecode = active_row.get('end_timecode').strip('[]')
 
     if not video_id or not start_timecode or not end_timecode:
         return dash.no_update
