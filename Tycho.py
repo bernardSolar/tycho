@@ -19,7 +19,7 @@ server = app.server
 
 db_path = 'cd_gpt3_5_turbo.db'
 conn = sqlite3.connect(db_path)
-query = "SELECT * FROM definitions"  # Adjust if your table name or structure is different
+query = "SELECT * FROM descriptions"  # Adjust if your table name or structure is different
 df = pd.read_sql_query(query, conn)
 
 conn.close()
