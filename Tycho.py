@@ -9,8 +9,8 @@ import pandas as pd
 
 def generate_tooltips(dataframe):
     return [
-        {'definition': {'value': str(row['definition']), 'type': 'markdown'}}
-        if 'definition' in row else {}
+        {'description': {'value': str(row['description']), 'type': 'markdown'}}
+        if 'description' in row else {}
         for row in dataframe.to_dict('records')
     ]
 
@@ -19,7 +19,7 @@ server = app.server
 
 db_path = 'cd_gpt3_5_turbo.db'
 conn = sqlite3.connect(db_path)
-query = "SELECT * FROM definitions"  # Adjust if your table name or structure is different
+query = "SELECT * FROM detions"  # Adjust if your table name or structure is different
 df = pd.read_sql_query(query, conn)
 
 conn.close()
@@ -40,7 +40,7 @@ app.layout = html.Div([
 
     html.Div([  # DataTable
         dash_table.DataTable(
-            id='definitions-table',
+            id='descriptions-table',
             columns=[
                 {"name": i, "id": i, "editable": True if i in ['start_timecode', 'end_timecode'] else False}
                 for i in df.columns if i != 'document_name'
@@ -67,8 +67,8 @@ app.layout = html.Div([
 
 @app.callback(
     Output('video-frame', 'src'),
-    [Input('definitions-table', 'active_cell'),
-     Input('definitions-table', 'derived_virtual_data')]
+    [Input('descriptions-table', 'active_cell'),
+     Input('descriptions-table', 'derived_virtual_data')]
 )
 def update_video_src(active_cell, derived_virtual_data):
     # Step 1: Check for Active Cell and Derived Virtual Data
@@ -99,8 +99,8 @@ def update_video_src(active_cell, derived_virtual_data):
 
 @app.callback(
     Output('video-id-display', 'children'),
-    [Input('definitions-table', 'active_cell'),
-     Input('definitions-table', 'derived_virtual_data')]
+    [Input('descriptions-table', 'active_cell'),
+     Input('descriptions-table', 'derived_virtual_data')]
 )
 def display_video_id_and_timecode(active_cell, derived_virtual_data):
     if active_cell and derived_virtual_data:
