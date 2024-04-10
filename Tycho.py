@@ -17,7 +17,7 @@ def generate_tooltips(dataframe):
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.SPACELAB])
 server = app.server
 
-db_path = 'CD.db'
+db_path = 'cd_gpt3_5_turbo.db'
 conn = sqlite3.connect(db_path)
 query = "SELECT * FROM definitions"  # Adjust if your table name or structure is different
 df = pd.read_sql_query(query, conn)
