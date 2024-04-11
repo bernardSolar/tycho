@@ -28,6 +28,7 @@ def convert_to_mm_ss(timecode):
 db_files = [f for f in os.listdir('.') if os.path.isfile(f) and f.endswith('.db')]
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.SPACELAB])
+server = app.server
 
 db_path = 'cd_gpt3_5_definitions.db'
 conn = sqlite3.connect(db_path)
