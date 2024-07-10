@@ -1,5 +1,6 @@
 dash==2.16.1
 dash_bootstrap_components
 datetime
+dash_auth
 pandas
 gunicorn
