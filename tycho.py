@@ -1,15 +1,14 @@
 from datetime import datetime
 import sqlite3
-
 import dash
 import dash_bootstrap_components as dbc
 from dash import dcc, html, dash_table
 from dash.dependencies import Input, Output, State
 import pandas as pd
-import os
-
+import dash_auth
 import os
 from dash import dcc
+from flask import Flask
 
 # Function to convert hh:mm:ss to mm:ss format
 def convert_to_mm_ss(timecode):
@@ -27,8 +26,22 @@ def convert_to_mm_ss(timecode):
 # 1. List `.db` files in the current folder
 db_files = [f for f in os.listdir('.') if os.path.isfile(f) and f.endswith('.db')]
 
-app = dash.Dash(__name__, external_stylesheets=[dbc.themes.SPACELAB])
-server = app.server
+# Define username and password pairs for authentication
+VALID_USERNAME_PASSWORD_PAIRS = {
+    'cdtestdevs': 'testing123!'
+}
+
+# Create the Flask server
+flask_server = Flask(__name__)
+flask_server.secret_key = '49727fb39994d242cd3bc90d2ee723e1'  # Set your secret key here
+
+app = dash.Dash(__name__, server=flask_server, external_stylesheets=[dbc.themes.SPACELAB])
+
+# Add authentication
+auth = dash_auth.BasicAuth(
+    app,
+    VALID_USERNAME_PASSWORD_PAIRS
+)
 
 db_path = 'cd_gpt3_5_definitions.db'
 conn = sqlite3.connect(db_path)
@@ -159,7 +172,7 @@ def display_video_id_and_timecode(active_cell, derived_virtual_data):
         return f"Video ID: {video_id}, Start Timecode: {start_timecode}"
     
     # Default message when no cell is active
-    return "Click on a table row to display the video ID and start timecode."
+    return "Click on a table row to select a video clip and start/end timecodes."
 
 
 # Run the Dash application
