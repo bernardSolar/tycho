@@ -178,3 +178,4 @@ def display_video_id_and_timecode(active_cell, derived_virtual_data):
 # Run the Dash application
 if __name__ == '__main__':
     app.run_server(debug=True)
+server = app.server
